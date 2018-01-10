@@ -20,6 +20,8 @@ npm run build --report
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
-技术栈：vue2+axios+vue-router+vuex+stylus
+技术栈：vue2+axios+vue-router+vuex+stylus+es6
+
 使用到的库：better-scroll,vue-lazyload
+
 使用网易新闻的数据
