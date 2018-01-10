@@ -36,5 +36,9 @@ export default new Router({
       path: '/fun',
       component: fun
     },
+    {
+      path: '/test',
+      component: test
+    },
   ]
 })

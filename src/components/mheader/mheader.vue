@@ -7,7 +7,7 @@
       <router-link to="/sport" class="tab-item">体育</router-link>
       <router-link to="/history" class="tab-item">历史</router-link>
       <router-link to="/fun" class="tab-item">娱乐</router-link>
-      <!--<router-link to="/test" class="tab-item">test</router-link>-->
+      <router-link to="/test" class="tab-item">test</router-link>
     </div>
   </div>
 </template>

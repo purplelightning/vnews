@@ -2,11 +2,14 @@
   <div class="test">
     <div>测试</div>
     <div class="and icon-android">
-
     </div>
+    <button @click="change">Toggle</button>
+    <transition name="move">
+      <div class="move" v-show="cc">
+      </div>
+    </transition>
   </div>
 </template>
-
 
 <script type="text/ecmascript-6">
   import jsonp from 'jsonp'
@@ -24,6 +27,16 @@
   const url66 = 'touch/reconstruct/article/list/BBM54PGAwangning/0-10.html'
 
   export default {
+    data() {
+      return {
+        cc: false
+      }
+    },
+    methods: {
+      change() {
+        this.cc = !this.cc
+      }
+    },
     created() {
 //      这也能解决url4
       jsonp(url4, null, function (err, data) {
@@ -50,5 +63,13 @@
     height: 100%
     background: #46e4ff
     .and
-      font-size:25px
+      font-size: 25px
+    .move
+      width: 100px
+      height: 100px
+      background: #1558d3
+      &.move-enter, &.move-leave-to
+        opacity: 0
+      &.move-enter-active, &.move-leave-active
+        transition: opacity 1s
 </style>

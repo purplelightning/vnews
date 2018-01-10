@@ -10,7 +10,6 @@
   import newstemp from 'components/newstemp/newstemp'
   import {SPORT} from 'common/js/url'
 
-
   export default {
     data() {
       return {
