@@ -77,7 +77,7 @@
           //获得新数据并合并到最终数组里
           let temp = (_this.formatData(_this.news))
           _this.finalData = _this.finalData.concat(temp)
-          console.log(_this.finalData)
+//          console.log(_this.finalData)
 
           _this.$nextTick(() => {
             _this._initScroll()

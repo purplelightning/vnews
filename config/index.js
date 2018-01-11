@@ -4,8 +4,7 @@
 
 const path = require('path')
 
-const url2 = "http://v.juhe.cn/toutiao/index?type=shehui&key=3771c3180f6dd01a974767a2ebc763f1"
-
+const url2 = 'https://www.douban.com/search?cat=1025&q=%E7%BE%8E%E5%A5%B3'
 
 module.exports = {
   dev: {
@@ -18,9 +17,17 @@ module.exports = {
         target: "http://guolin.tech/",
         changeOrigin: true
       },
-      "/touch/reconstruct/article/list":{
-        target:"https://3g.163.com/",
-        changeOrigin:true
+      "/touch/reconstruct/article/list": {
+        target: "https://3g.163.com/",
+        changeOrigin: true
+      },
+      "/open/tupian.json": {
+        target: "http://api.laifudao.com/",
+        changeOrigin: true
+      },
+      "/j/search_photo": {
+        target: "https://www.douban.com/",
+        changeOrigin: true
       }
     },
 
