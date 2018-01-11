@@ -1,7 +1,7 @@
 <template>
   <div class="newstempWrapper">
-    <div class="newstemp" ref="newstemp">
-      <ul v-show="finalData">
+    <div class="newstemp" ref="newstemp" v-show="news">
+      <ul>
         <li v-for="item in finalData" class="item" @click="getFullPage(item.url)">
           <img class="ii" v-lazy="item.imgsrc">
           <div class="detail">
@@ -13,7 +13,11 @@
           </div>
         </li>
       </ul>
-      <loading :show="!finalData"></loading>
+      <loading v-show="false"></loading>
+    </div>
+
+    <div class="loading" v-show="!news">
+      <img src="../../../static/loading.gif">
     </div>
   </div>
 </template>
@@ -177,19 +181,28 @@
           .wrapper
             position: absolute
             display: flex
-            left:0
-            right:0
-            bottom:5px
+            left: 0
+            right: 0
+            bottom: 5px
             font-size: 12px
             .time
-              flex:1
+              flex: 1
               display: inline-block
             .ratings
-              flex:0 0 60px
+              flex: 0 0 60px
               display: inline-block
       .tip
         width: 100%
         height: 50px
         background: #3ffff3
         z-index: 1
+    .loading
+      width: 100%
+      height: 100%
+      img
+        display: block
+        margin: 100px auto
+        width: 150px
+        height: 150px
+
 </style>
