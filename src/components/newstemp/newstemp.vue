@@ -6,8 +6,10 @@
           <img class="ii" v-lazy="item.imgsrc">
           <div class="detail">
             <div class="title">{{item.title}}</div>
-            <span class="time">{{item.ptime}}</span>
-            <span class="ratings">评论:{{item.commentCount | setComment}}</span>
+            <div class="wrapper">
+              <span class="time">{{item.ptime}}</span>
+              <span class="ratings">评论:{{item.commentCount | setComment}}</span>
+            </div>
           </div>
         </li>
       </ul>
@@ -155,31 +157,36 @@
       height: 100%
       overflow: hidden
       .item
+        position: relative
+        display: flex
         height: 90px
         padding: 10px
         box-sizing: border-box
         img
-          display: inline-block
+          flex: 0 0 100px
           width: 100px
           height: 80px
           margin-right: 5px
         .detail
+          flex: 1
           position: relative
-          display: inline-block
           vertical-align: top
-          width: 280px
           height: 80px
           .title
             font-size: 18px
-          .time
+          .wrapper
             position: absolute
-            bottom: 5px
+            display: flex
+            left:0
+            right:0
+            bottom:5px
             font-size: 12px
-          .ratings
-            position: absolute
-            left: 220px
-            bottom: 5px
-            font-size: 12px
+            .time
+              flex:1
+              display: inline-block
+            .ratings
+              flex:0 0 60px
+              display: inline-block
       .tip
         width: 100%
         height: 50px

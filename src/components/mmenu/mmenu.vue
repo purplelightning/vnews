@@ -5,7 +5,7 @@
       <div class="des">十二</div>
     </div>
     <ul class="menu-list">
-      <li v-for="(item,index) in menuArray" class="item">
+      <li v-for="(item,index) in menuArray" class="item" @click="close">
         <router-link :to="item.towhere" class="rou">
           <span class="newicon" :class="item.tt"></span>
           {{item.title}}
@@ -16,6 +16,8 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {mapActions} from 'vuex'
+
   export default {
     data() {
       return {
@@ -61,6 +63,12 @@
           }
         }
       },
+      close() {
+        this.closeDrawer()
+      },
+      ...mapActions([
+        'closeDrawer'
+      ])
 //      showIndex(index) {
 //        console.log(index)
 //      }
@@ -109,7 +117,7 @@
             color: #3e8eff
           .newicon
             margin-left: 30px
-            margin-right: 20px
+            margin-right: 30px
 
 
 </style>
