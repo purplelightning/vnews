@@ -13,7 +13,7 @@
           </div>
         </li>
       </ul>
-      <loading v-show="false"></loading>
+      <loading :ashow="false"></loading>
     </div>
 
     <div class="loading" v-show="!news">

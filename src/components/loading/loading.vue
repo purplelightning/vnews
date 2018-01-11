@@ -1,5 +1,5 @@
 <template>
-  <div class="loading" v-show="show">
+  <div class="loading" v-show="ashow">
     <div class="loader-inner ball-pulse">
       <div></div>
       <div></div>
@@ -11,7 +11,7 @@
 <script type="text/ecmascript-6">
 export default {
   props:{
-    show:{
+    ashow:{
       type:Boolean
     }
   }

@@ -4,13 +4,14 @@
       <div class="icon icon-arrow_lift" @click="getBack"></div>
       <span class="title">图片</span>
     </div>
-    <div class="picture">
+    <div class="picture" ref="picture">
       <ul class="picture-list">
         <li v-for="item in pcontent" class="item">
           <img :src="item.src" class="ii">
         </li>
       </ul>
     </div>
+    <loading :ashow="!fflag"></loading>
   </div>
 </template>
 
@@ -18,12 +19,18 @@
   import axios from 'axios'
   import {PHOTO} from 'common/js/url'
   import {mapActions} from 'vuex'
+  import loading from 'components/loading/loading'
+  import BScroll from 'better-scroll'
 
   export default {
     data() {
       return {
         apiUrl: PHOTO,
-        pcontent: {}
+        pcontent: {},
+        fflag: false,
+        pullUpLoad: {//上拉加载
+          threshold: -70,
+        },
       }
     },
     created() {
@@ -34,10 +41,31 @@
         var _this = this
         this.$http.get(this.apiUrl).then((res) => {
           _this.pcontent = res.data.images
+          _this.fflag = true
 //          console.log(_this.pcontent)
+//          获取完数据后，在初始化better-scroll
+          _this.$nextTick(() => {
+            _this._initScroll()
+          })
+
         }).catch((error) => {
           console.log(error)
         })
+      },
+      _initScroll() {
+        if (!this.scroll) {
+          this.scroll = new BScroll(this.$refs.picture, {
+            click: true,
+            pullUpLoad: this.pullUpLoad,
+          })
+        } else {
+          this.scroll.refresh()
+        }
+
+        this.scroll.on('pullingUp', () => {
+          console.log('没有数据')
+        })
+
       },
       getBack() {
         this.openDrawer()
@@ -45,6 +73,9 @@
       ...mapActions([
         'openDrawer'
       ])
+    },
+    components: {
+      loading
     }
   }
 </script>
@@ -66,10 +97,10 @@
         display: inline-block
         float: left
         line-height: 60px
-        width:40px
-        height:100%
+        width: 40px
+        height: 100%
       .title
-        margin:auto
+        margin: auto
 
     .picture
       position: absolute
@@ -77,8 +108,11 @@
       left: 0
       bottom: 0
       width: 100%
+      overflow: hidden
       .picture-list
         .item
+          text-align: center
           .ii
-            width: 140px
+            width: 200px
+            margin-bottom:15px
 </style>
