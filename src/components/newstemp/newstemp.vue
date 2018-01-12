@@ -58,6 +58,7 @@
         if (!this.scroll) {
           this.scroll = new BScroll(this.$refs.newstemp, {
             click: true,
+//            freeScroll: true,
             scrollY: true,
             pullUpLoad: this.pullUpLoad,
           })
@@ -73,6 +74,16 @@
           }, 1000)
 //          this.showTip()
         })
+//        this.scroll.on('scrollEnd', () => {
+//          if (this.scroll.movingDirectionX !== 0) {
+//            console.log('左')
+//          }
+//          if (this.scroll.movingDirectionY === 1) {
+//            console.log('下')
+//          } else {
+//            console.log('上')
+//          }
+//        })
       },
 
       //异步获取数据并初始化better-scroll

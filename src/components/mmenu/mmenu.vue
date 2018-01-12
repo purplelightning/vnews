@@ -3,7 +3,7 @@
     <div class="menu" @click.stop="">
       <div class="top">
         <img :src="imgUrl" class="ii">
-        <div class="des">十二</div>
+        <div class="des">挽歌</div>
       </div>
       <ul class="menu-list">
         <li v-for="(item,index) in menuArray" class="item" @click="close">
@@ -12,14 +12,25 @@
             {{item.title}}
           </router-link>
         </li>
+        <li class="item" @click="openColorDialog">
+          <div class="rou">
+            <span class="newicon icon-joomla"></span>
+            换肤
+          </div>
+        <li class="item" @click="openColorDialog">
+          <div class="rou">
+            <span class="newicon icon-favorite"></span>
+            love
+          </div>
+        </li>
       </ul>
-
-      <button @click="openColorDialog">换肤</button>
     </div>
 
     <!--换肤对话框-->
     <div class="theme" v-show="themeFlag" @click.stop="">
-      <button @click="closeColorDialog">关闭</button>
+      <div class="back" @click="closeColorDialog">
+        <span class="icon icon-arrow_lift"></span>
+      </div>
       <h3>主题</h3>
       <div class="dia">
         <div v-for="(item,index) in colorArray" class="round" :style="{background:item}"
@@ -27,6 +38,7 @@
         </div>
       </div>
     </div>
+
   </div>
 
 </template>
@@ -164,13 +176,21 @@
       left: 0
       bottom: 0
       width: 100%
-      background: white
+      color: white
+      background: linear-gradient(to bottom right, rgba(166, 22, 22, 1), rgba(22, 22, 222, 1))
       z-index: 20
+      .back
+        display: block
+        width: 50px
+        heigth: 50px
+        font-size: 22px
+        .icon
+          display: block
+          padding: 10px
       .dia
         margin: auto
         width: 300px
         height: 180px
-        border: 1px solid blue
         .round
           display: inline-block
           margin: 15px 12px
