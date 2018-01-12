@@ -1,5 +1,5 @@
 <template>
-  <div class="mheader">
+  <div class="mheader" :style="{background:themeColor}">
     <div class="tab">
       <div class="open icon-home3" @click="open"></div>
       <router-link to="/homepage" class="tab-item">首页</router-link>
@@ -14,7 +14,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {mapActions} from 'vuex'
+  import {mapActions, mapState} from 'vuex'
 
   export default {
     methods: {
@@ -27,6 +27,11 @@
       ...mapActions([
         'openDrawer',
         'closeDrawer'
+      ])
+    },
+    computed: {
+      ...mapState([
+        'themeColor'
       ])
     }
   }

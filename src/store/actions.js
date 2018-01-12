@@ -6,5 +6,8 @@ export default {
   },
   closeDrawer({commit}) {
     commit('CLOSE_DRAWER')
+  },
+  changeBackgroundColor({commit}, index) {
+    commit('CHANGE_BGCOLOR', index)
   }
 }

@@ -6,7 +6,11 @@ import mutations from './mutations'
 Vue.use(Vuex)
 
 const state = {
-  showDrawer: false
+  showDrawer: false,
+  colorArray: [
+    'red', 'orange', 'yellow', 'green', 'blue', '#77e9ff', 'purple','#e757ff'
+  ],
+  themeColor:'red'
 }
 
 export default new Vuex.Store({

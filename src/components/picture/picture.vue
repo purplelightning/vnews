@@ -1,6 +1,6 @@
 <template>
   <div class="picture-wrapper">
-    <div class="top">
+    <div class="top" :style="{background:themeColor}">
       <div class="icon icon-arrow_lift" @click="getBack"></div>
       <span class="title">图片</span>
     </div>
@@ -18,7 +18,7 @@
 <script type="text/ecmascript-6">
   import axios from 'axios'
   import {PHOTO} from 'common/js/url'
-  import {mapActions} from 'vuex'
+  import {mapActions, mapState} from 'vuex'
   import loading from 'components/loading/loading'
   import BScroll from 'better-scroll'
 
@@ -76,6 +76,11 @@
     },
     components: {
       loading
+    },
+    computed: {
+      ...mapState([
+        'themeColor'
+      ])
     }
   }
 </script>
@@ -114,5 +119,5 @@
           text-align: center
           .ii
             width: 200px
-            margin-bottom:15px
+            margin-bottom: 15px
 </style>

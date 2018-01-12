@@ -1,22 +1,38 @@
 <template>
-  <div class="menu" v-show="showMenu">
-    <div class="top">
-      <img :src="imgUrl" class="ii">
-      <div class="des">十二</div>
+  <div class="menu-wrapper" v-show="showMenu" @click="close">
+    <div class="menu" @click.stop="">
+      <div class="top">
+        <img :src="imgUrl" class="ii">
+        <div class="des">十二</div>
+      </div>
+      <ul class="menu-list">
+        <li v-for="(item,index) in menuArray" class="item" @click="close">
+          <router-link :to="item.towhere" class="rou">
+            <span class="newicon" :class="item.tt"></span>
+            {{item.title}}
+          </router-link>
+        </li>
+      </ul>
+
+      <button @click="openColorDialog">换肤</button>
     </div>
-    <ul class="menu-list">
-      <li v-for="(item,index) in menuArray" class="item" @click="close">
-        <router-link :to="item.towhere" class="rou">
-          <span class="newicon" :class="item.tt"></span>
-          {{item.title}}
-        </router-link>
-      </li>
-    </ul>
+
+    <!--换肤对话框-->
+    <div class="theme" v-show="themeFlag" @click.stop="">
+      <button @click="closeColorDialog">关闭</button>
+      <h3>主题</h3>
+      <div class="dia">
+        <div v-for="(item,index) in colorArray" class="round" :style="{background:item}"
+             @click="changeColor(index)">
+        </div>
+      </div>
+    </div>
   </div>
+
 </template>
 
 <script type="text/ecmascript-6">
-  import {mapActions} from 'vuex'
+  import {mapActions, mapState} from 'vuex'
 
   export default {
     data() {
@@ -47,77 +63,119 @@
             sel: false,
             towhere: '/picture'
           }],
-        imgUrl: '../../static/xin.jpg'
+        imgUrl: '../../static/xin.jpg',
+        themeFlag: false
       }
     },
     props: [
       'showMenu'
     ],
     methods: {
-      selMenu(index) {
-        for (let i = 0; i < this.menuArray.length; i++) {
-          if (i === index) {
-            this.menuArray[i].sel = true
-          } else {
-            this.menuArray[i].sel = false
-          }
-        }
+//      selMenu(index) {
+//        for (let i = 0; i < this.menuArray.length; i++) {
+//          if (i === index) {
+//            this.menuArray[i].sel = true
+//          } else {
+//            this.menuArray[i].sel = false
+//          }
+//        }
+//      },
+      changeColor(index) {
+        this.changeBackgroundColor(index)//传递index
+//        console.log(this.themeColor)
+        this.closeColorDialog()//关闭颜色框
+        this.close()//关闭侧边栏
+      },
+      openColorDialog() {
+        this.themeFlag = true
+      },
+      closeColorDialog() {
+        this.themeFlag = false
       },
       close() {
         this.closeDrawer()
       },
       ...mapActions([
-        'closeDrawer'
+        'closeDrawer',
+        'changeBackgroundColor'
       ])
-//      showIndex(index) {
-//        console.log(index)
-//      }
+    },
+    computed: {
+      ...mapState([
+        'colorArray',
+        'themeColor'
+      ])
     }
   }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  .menu
+  .menu-wrapper
     position: absolute
     top: 0
     left: 0
     bottom: 0
-    width: 250px
-    height: 100%
-    color: white
-    background: #262626
-    z-index: 10
-    .top
-      width: 100%
-      height: 200px
-      padding: 20px
-      box-sizing: border-box
-      text-align: center
-      background: #393939
-      .ii
-        display: block
-        margin: auto
-        width: 100px
-        height: 100px
-        border-radius: 50%
-        border: 1px solid #46e4ff
-      .des
-        margin-top: 20px
-        color: white
-    .menu-list
-      .item
+    width: 100%
+    z-index: 5
+    .menu
+      position: absolute
+      top: 0
+      left: 0
+      bottom: 0
+      width: 250px
+      height: 100%
+      color: white
+      background: #262626
+      z-index: 10
+      .top
         width: 100%
-        height: 60px
-        line-height: 60px
-        border-bottom: 1px solid #ccc
-        .rou
+        height: 200px
+        padding: 20px
+        box-sizing: border-box
+        text-align: center
+        background: #393939
+        .ii
           display: block
-          color: #ccc
-          &.active
-            color: #3e8eff
-          .newicon
-            margin-left: 30px
-            margin-right: 30px
-
-
+          margin: auto
+          width: 100px
+          height: 100px
+          border-radius: 50%
+          border: 1px solid #46e4ff
+        .des
+          margin-top: 20px
+          color: white
+      .menu-list
+        .item
+          width: 100%
+          height: 60px
+          line-height: 60px
+          border-bottom: 1px solid #ccc
+          .rou
+            display: block
+            color: #ccc
+            &.active
+              color: #3e8eff
+            .newicon
+              margin-left: 30px
+              margin-right: 30px
+    .theme
+      position: absolute
+      top: 0
+      left: 0
+      bottom: 0
+      width: 100%
+      background: white
+      z-index: 20
+      .dia
+        margin: auto
+        width: 300px
+        height: 180px
+        border: 1px solid blue
+        .round
+          display: inline-block
+          margin: 15px 12px
+          width: 50px
+          height: 50px
+          border-radius: 50%
+          background: #000
 </style>
