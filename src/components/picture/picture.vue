@@ -61,11 +61,9 @@
         } else {
           this.scroll.refresh()
         }
-
         this.scroll.on('pullingUp', () => {
           console.log('没有数据')
         })
-
       },
       getBack() {
         this.openDrawer()
@@ -115,9 +113,11 @@
       width: 100%
       overflow: hidden
       .picture-list
+        text-align: center
         .item
-          text-align: center
+          display: inline-block
+          vertical-align: middle
           .ii
-            width: 200px
-            margin-bottom: 15px
+            width: 180px
+            margin: 5px 10px
 </style>

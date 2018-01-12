@@ -1,6 +1,9 @@
 <template>
-  <div class="menu-wrapper" v-show="showMenu" @click="close">
-    <div class="menu" @click.stop="">
+  <!--整个容器-->
+  <!--<div class="menu-wrapper" v-show="showMenu" @click="close">-->
+  <transition name="move">
+    <!--侧边栏-->
+    <div class="menu" @click.stop="" v-show="showMenu">
       <div class="top">
         <img :src="imgUrl" class="ii">
         <div class="des">挽歌</div>
@@ -24,22 +27,24 @@
           </div>
         </li>
       </ul>
-    </div>
 
-    <!--换肤对话框-->
-    <div class="theme" v-show="themeFlag" @click.stop="">
-      <div class="back" @click="closeColorDialog">
-        <span class="icon icon-arrow_lift"></span>
-      </div>
-      <h3>主题</h3>
-      <div class="dia">
-        <div v-for="(item,index) in colorArray" class="round" :style="{background:item}"
-             @click="changeColor(index)">
+      <!--换肤对话框-->
+      <div class="theme" v-show="themeFlag" @click.stop="">
+        <div class="back" @click="closeColorDialog">
+          <span class="icon icon-arrow_lift"></span>
+        </div>
+        <h3>主题</h3>
+        <div class="dia">
+          <div v-for="(item,index) in colorArray" class="round" :style="{background:item}"
+               @click="changeColor(index)">
+          </div>
         </div>
       </div>
     </div>
+  </transition>
 
-  </div>
+  <!--</div>-->
+
 
 </template>
 
@@ -122,56 +127,54 @@
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  .menu-wrapper
+  .menu
     position: absolute
     top: 0
     left: 0
     bottom: 0
-    width: 100%
-    z-index: 5
-    .menu
-      position: absolute
-      top: 0
-      left: 0
-      bottom: 0
-      width: 250px
-      height: 100%
-      color: white
-      background: #262626
-      z-index: 10
-      .top
+    width: 250px
+    height: 100%
+    color: white
+    background: #262626
+    z-index: 10
+    &.move-enter, &.move-leave-to
+      opacity: 0
+      transform: translateX(-100%)
+    &.move-enter-active, &.move-leave-active
+      transition: all .5s
+    .top
+      width: 100%
+      height: 200px
+      padding: 20px
+      box-sizing: border-box
+      text-align: center
+      background: #393939
+      .ii
+        display: block
+        margin: auto
+        width: 100px
+        height: 100px
+        border-radius: 50%
+        border: 1px solid #46e4ff
+      .des
+        margin-top: 20px
+        color: white
+    .menu-list
+      .item
         width: 100%
-        height: 200px
-        padding: 20px
-        box-sizing: border-box
-        text-align: center
-        background: #393939
-        .ii
+        height: 60px
+        line-height: 60px
+        border-bottom: 1px solid #ccc
+        .rou
           display: block
-          margin: auto
-          width: 100px
-          height: 100px
-          border-radius: 50%
-          border: 1px solid #46e4ff
-        .des
-          margin-top: 20px
-          color: white
-      .menu-list
-        .item
-          width: 100%
-          height: 60px
-          line-height: 60px
-          border-bottom: 1px solid #ccc
-          .rou
-            display: block
-            color: #ccc
-            &.active
-              color: #3e8eff
-            .newicon
-              margin-left: 30px
-              margin-right: 30px
+          color: #ccc
+          &.active
+            color: #3e8eff
+          .newicon
+            margin-left: 30px
+            margin-right: 30px
     .theme
-      position: absolute
+      position: fixed
       top: 0
       left: 0
       bottom: 0
