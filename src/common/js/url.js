@@ -15,9 +15,17 @@ const LAIFU = 'open/tupian.json'
 const PICTURETOP = 'photocenter/api/list/0001/00AP0001,3R710001,4T8E0001/0/3/cache_00AP_3R71_4T8E_top.json'
 
 const PHOTO = 'j/search_photo?q=%E7%BE%8E%E5%A5%B3&limit=20&start=0'
-const PHOTO2='j/search_photo?q=%E7%BE%8E%E5%A5%B3&limit=20&start=20'
+const PHOTO2 = 'j/search_photo?q=%E7%BE%8E%E5%A5%B3&limit=20&start=20'
+
+const MOVIE = {
+  INTHEATRE: "/v2/movie/in_theaters",
+  INCOMING: "/v2/movie/coming_soon",
+  TOP: "/v2/movie/top250",
+  GOODRATING: "/v2/movie/weekly",
+  NEW: "/v2/movie/new_movies"
+}
 
 export {
   HOME_NEWS, SOCIETY_NEWS, HISTORY, FUN, SPORT, PICTURE, PICTURETOP,
-  LAIFU, PHOTO
+  LAIFU, PHOTO, MOVIE
 }

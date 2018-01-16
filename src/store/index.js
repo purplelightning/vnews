@@ -8,9 +8,10 @@ Vue.use(Vuex)
 const state = {
   showDrawer: false,
   colorArray: [
-    'red', '#2bad20', 'yellow', 'green', 'blue', '#77e9ff', 'purple','#e757ff'
+    'red', '#2bad20', 'yellow', 'green', 'blue', '#77e9ff', 'purple', '#e757ff',
+    '#fc494c', '#5097fc', '#6bbfb1', '#bf2c91'
   ],
-  themeColor:'red'
+  themeColor: 'purple'
 }
 
 export default new Vuex.Store({

@@ -8,6 +8,7 @@ import fun from '@/components/news/fun'
 import history from 'components/news/history'
 import test from 'components/test/test'
 import picture from 'components/picture/picture'
+import movie from 'components/movie/movie'
 
 Vue.use(Router)
 
@@ -53,6 +54,10 @@ export default new Router({
     {
       path: '/picture',
       component: picture
+    },
+    {
+      path: '/movie',
+      component: movie
     }
   ]
 })

@@ -1,8 +1,5 @@
 <template>
-  <!--整个容器-->
-  <!--<div class="menu-wrapper" v-show="showMenu" @click="close">-->
   <transition name="move">
-    <!--侧边栏-->
     <div class="menu" @click.stop="" v-show="showMenu">
       <div class="top">
         <img :src="imgUrl" class="ii">
@@ -20,14 +17,13 @@
             <span class="newicon icon-joomla"></span>
             换肤
           </div>
-        <li class="item" @click="openColorDialog">
-          <div class="rou">
-            <span class="newicon icon-favorite"></span>
-            love
-          </div>
+        <!--<li class="item" @click="openColorDialog">-->
+          <!--<div class="rou">-->
+            <!--<span class="newicon icon-favorite"></span>-->
+            <!--love-->
+          <!--</div>-->
         </li>
       </ul>
-
       <!--换肤对话框-->
       <div class="theme" v-show="themeFlag" @click.stop="">
         <div class="back" @click="closeColorDialog">
@@ -42,8 +38,6 @@
       </div>
     </div>
   </transition>
-
-  <!--</div>-->
 
 
 </template>
@@ -61,6 +55,12 @@
             tt: 'icon-newspaper',
             sel: false,
             towhere: '/homepage'
+          },
+          {
+            title:'电影',
+            tt:'icon-library',
+            sel:false,
+            towhere:'/movie'
           },
           {
             title: '前端',
@@ -193,7 +193,7 @@
       .dia
         margin: auto
         width: 300px
-        height: 180px
+        /*height: 180px*/
         .round
           display: inline-block
           margin: 15px 12px

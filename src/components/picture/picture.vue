@@ -118,6 +118,6 @@
           display: inline-block
           vertical-align: middle
           .ii
-            width: 180px
-            margin: 5px 10px
+            width: 170px
+            margin: 5px 5px
 </style>

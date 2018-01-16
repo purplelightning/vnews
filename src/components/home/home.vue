@@ -3,8 +3,7 @@
     <!--tab-->
     <mheader></mheader>
     <!--侧边栏-->
-      <mmenu :showMenu="showDrawer"
-             class="mmenu"></mmenu>
+    <mmenu :showMenu="showDrawer" class="mmenu"></mmenu>
 
     <transition name="charouter">
       <router-view></router-view>

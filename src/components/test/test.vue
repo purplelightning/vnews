@@ -61,7 +61,7 @@
     top: 60px
     width: 100%
     height: 100%
-    background: #2bad20
+    background: #bf2c91
     .and
       font-size: 25px
     .move

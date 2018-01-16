@@ -13,10 +13,6 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      "/api": {
-        target: "http://guolin.tech/",
-        changeOrigin: true
-      },
       "/touch/reconstruct/article/list": {
         target: "https://3g.163.com/",
         changeOrigin: true
@@ -27,6 +23,10 @@ module.exports = {
       },
       "/j/search_photo": {
         target: "https://www.douban.com/",
+        changeOrigin: true
+      },
+      "/v2/movie": {
+        target: "https://api.douban.com/",
         changeOrigin: true
       }
     },
