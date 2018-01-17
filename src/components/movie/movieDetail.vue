@@ -22,7 +22,7 @@
                 <span>/{{item}}</span>
               </div>
               <div class="orginalname">原名：{{movieItem.attrs.title[0]}}</div>
-              <div class="pubtime">上映时间：{{movieItem.attrs.pubdate[1]}}</div>
+              <div class="pubtime">上映时间：{{movieItem.attrs.pubdate[movieItem.attrs.pubdate.length - 1]}}</div>
               <div class="movieduration">片长：{{movieItem.attrs.movie_duration[0]}}</div>
             </div>
             <div class="des-right">
@@ -41,7 +41,18 @@
             </button>
           </div>
         </div>
-
+        <!--选择购票-->
+        <div class="shop">
+          <span class="name">选座购票</span>
+          <div class="icon-wrapper" @click="hell">
+            <span class=" icon icon-circle-right"></span>
+          </div>
+        </div>
+        <!--简介-->
+        <div class="summary">
+          <div class="title">简介</div>
+          <div class="summary-content">{{movieItem.summary}}</div>
+        </div>
       </div>
     </div>
 
@@ -82,6 +93,9 @@
           console.log(err)
         })
       },
+      hell(){
+        alert('hello')
+      }
 
     },
     computed: {
@@ -142,7 +156,7 @@
 
       .content
         .hheader
-          padding: 20px
+          padding: 20px 20px 10px 20px
           .des
             display: flex
             margin-bottom: 10px
@@ -195,6 +209,40 @@
               flex: 1
             #watched
               flex: 2
-
-
+        .shop
+          position: relative
+          width: 100%
+          height: 50px
+          line-height: 50px
+          border-top: 1px solid #ddd
+          border-bottom: 1px solid #ddd
+          .name
+            vertical-align: top
+            margin-left:20px
+          .icon-wrapper
+            text-align: center
+            display: inline-block
+            position: absolute
+            right:0
+            width:50px
+            height:50px
+            .icon
+              display: block
+              margin:auto
+              line-height:50px
+              font-size: 14px
+        .summary
+          padding: 20px
+          .title
+            margin-bottom:10px
+            font-size:12px
+            color:#888
+          .summary-content
+            width: 100%
+            height:80px
+            overflow: hidden
+            text-overflow:ellipsis
+            display: -webkit-box
+            -webkit-line-clamp: 5
+            -webkit-box-orient: vertical
 </style>

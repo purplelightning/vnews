@@ -14,8 +14,7 @@
             <span class="more">全部{{allData.total}}
             <span class=" icon icon-circle-right"></span> </span>
           </div>
-
-          <!--横向滚动-->
+          <!--横向滚动列表-->
           <div class="mo-wrapper" ref="moWrapper">
             <ul v-show="fflag" class="mo-list" ref="moList">
               <li v-for="(item,index) in movieData" class="item">
@@ -29,6 +28,27 @@
               </li>
             </ul>
           </div>
+        </div>
+
+        <div class="coming">
+          <div class="coming-content">
+            <span class="title">院线即将上映</span>
+            <span class="more">全部{{comingData.total}}
+            <span class=" icon icon-circle-right"></span></span>
+          </div>
+          <!--即将上映横向滚动-->
+          <div class="coming-wrapper" ref="comingWrapper">
+            <ul v-show="fflag2" class="coming-list" ref="comingList">
+              <li v-for="(item,index) in comingMovie" class="item">
+                <img :src="item.images.small">
+                <div class="des">
+                  <span class="name">{{item.title}}</span>
+                  <span class="want">{{item.collect_count}}人想看</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
         </div>
 
       </div>
@@ -45,13 +65,20 @@
   import loading2 from 'components/loading/loading2'
   import BScroll from 'better-scroll'
 
+  const THEATRE = 'THEATRE'
+  const COMING = 'COMING'
+
   export default {
     data() {
       return {
         apiUrl: MOVIE.INTHEATRE,
-        movieData: [],//用数组存储
+        comingUrl: MOVIE.INCOMING,
+        movieData: [],//用数组存储  正在上映电影
         allData: {},
-        fflag: false
+        comingMovie: [],//即将上映的电影
+        comingData: {},
+        fflag: false,
+        fflag2: false
       }
     },
     created() {
@@ -59,10 +86,12 @@
         return
       }
       this.getAsyncData(this.apiUrl)
+      this.getComingData(this.comingUrl)
     },
     mounted() {
       //执行时机优先于watch的执行时机
       this._initMovies();
+      this._initComing()
     },
     computed: {
       ...mapState([
@@ -73,6 +102,9 @@
     watch: {
       'movieData'() {
         this._initMovies();
+      },
+      'comingMovie'() {
+        this._initComing()
       }
     },
     methods: {
@@ -95,7 +127,27 @@
           })
         }
       },
-      //异步获取数据
+      _initComing() {//即将上映scroll
+        if (this.comingData.total) {
+          let picWidth = 100
+          let margin = 6
+          let width = (picWidth + margin) * this.comingData.count - margin;//ul宽度
+          this.$refs.comingList.style.width = width + 'px';
+          this.$nextTick(() => {
+            if (!this.coScroll) {
+              this.coScroll = new BScroll(this.$refs.comingWrapper, {
+                scrollX: true,
+                eventPassThrough: 'vertical',
+                click: true
+              });
+            } else {
+              this.coScroll.refresh();
+            }
+          })
+        }
+      },
+      //异步获取数据  好像不能只用异步函数，会报错
+      //因为电影数据的格式相同，所以这里对电影进行分类，传递不同的参数，给data赋值
       getAsyncData(url) {
         let _this = this
         this.$http.get(url).then((res) => {
@@ -103,6 +155,18 @@
           _this.movieData = res.data.subjects
           _this.fflag = true
 //          console.log(_this.movieData)
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
+      //好像不能用同名的异步函数，所以这里又定义了一个
+      getComingData(url) {
+        let _this = this
+        this.$http.get(url).then((res) => {
+          _this.comingData = res.data
+          _this.comingMovie = res.data.subjects
+          _this.fflag2 = true
+          console.log(_this.comingData)
         }).catch((err) => {
           console.log(err)
         })
@@ -131,7 +195,7 @@
     top: 0
     left: 0
     width: 100%
-    bottom:0
+    bottom: 0
     background: #fff
     .movie
       text-align: center
@@ -154,25 +218,24 @@
 
       .content
         .theatre
+          padding:10px 10px 20px 10px
+          border-bottom:1px solid #ddd
           .title-content
             position: relative
             height: 40px
             line-height: 40px
             text-align: left
             .title
-              margin-left: 10px
               font-size: 16px
             .more
               position: absolute
-              right: 5px
+              right: 0px
               vertical-align: top
               font-size: 12px
               color: #ccc
-
           .mo-wrapper
             width: 100%
             overflow: hidden
-
             .mo-list
               font-size: 0
               .item
@@ -190,7 +253,6 @@
                   display: block
                   font-size: 12px
                   font-weight: 600
-
                   overflow: hidden
                   white-space: nowrap /*不会折行*/
                   text-overflow: ellipsis
@@ -200,6 +262,49 @@
                 .ratings
                   display: inline-block
                   font-size: 12px
+
+
+        .coming
+          padding:10px
+          .coming-content
+            position: relative
+            height: 40px
+            line-height: 40px
+            text-align: left
+            .title
+              font-size: 16px
+            .more
+              position: absolute
+              right: 0px
+              vertical-align: top
+              font-size: 12px
+              color: #ccc
+          .coming-wrapper
+            width: 100%
+            overflow: hidden
+            .coming-list
+              font-size: 0
+              .item
+                display: inline-block
+                width: 100px
+                margin-right: 6px
+                font-size: 12px
+                text-align: left
+                &:last-child
+                  margin-right: 0
+                img
+                  width: 100px
+                  height: 144px
+                .name
+                  display: block
+                  font-size: 12px
+                  font-weight: 600
+                  overflow: hidden
+                  white-space: nowrap /*不会折行*/
+                  text-overflow: ellipsis
+                .want
+                  font-size:10px
+                  color:#888
 
 
 </style>
