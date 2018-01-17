@@ -1,6 +1,6 @@
 <template>
   <div class="movie-wrapper">
-    <div class="movie">
+    <div class="movie" v-show="fflag">
       <div class="top" :style="{background:themeColor}">
         <div class="icon icon-arrow_lift" @click="getBack"></div>
         <span class="title">电影</span>
@@ -33,7 +33,7 @@
 
       </div>
     </div>
-
+    <loading2 :bshow="!fflag"></loading2>
   </div>
 </template>
 
@@ -42,6 +42,7 @@
   import {mapState, mapActions} from 'vuex'
   import {MOVIE} from 'common/js/url'
   import star from 'components/star/star'
+  import loading2 from 'components/loading/loading2'
   import BScroll from 'better-scroll'
 
   export default {
@@ -119,19 +120,22 @@
       ])
     },
     components: {
-      star,
+      star, loading2
     }
   }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .movie-wrapper
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    bottom:0
+    background: #fff
     .movie
       text-align: center
       .top
-        position: absolute
-        top: 0
-        left: 0
         width: 100%
         height: 60px
         line-height: 60px
