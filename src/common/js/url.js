@@ -22,7 +22,9 @@ const MOVIE = {
   INCOMING: "/v2/movie/coming_soon",
   TOP: "/v2/movie/top250",
   GOODRATING: "/v2/movie/weekly",
-  NEW: "/v2/movie/new_movies"
+  NEW: "/v2/movie/new_movies",
+
+  // MOVIE_DETAIL=''
 }
 
 export {

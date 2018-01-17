@@ -9,5 +9,8 @@ export default {
   },
   changeBackgroundColor({commit}, index) {
     commit('CHANGE_BGCOLOR', index)
+  },
+  setMovieId({commit},id){
+    commit('SET_MOVIEID',id)
   }
 }

@@ -39,7 +39,6 @@
     </div>
   </transition>
 
-
 </template>
 
 <script type="text/ecmascript-6">

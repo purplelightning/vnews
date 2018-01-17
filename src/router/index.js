@@ -9,6 +9,7 @@ import history from 'components/news/history'
 import test from 'components/test/test'
 import picture from 'components/picture/picture'
 import movie from 'components/movie/movie'
+import movieDetail from 'components/movie/movieDetail'
 
 Vue.use(Router)
 
@@ -57,7 +58,12 @@ export default new Router({
     },
     {
       path: '/movie',
-      component: movie
+      component: movie,
+      meta: {keepAlive: true}
+    },
+    {
+      path: '/movieDetail',
+      component: movieDetail
     }
   ]
 })

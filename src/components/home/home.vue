@@ -6,7 +6,9 @@
     <mmenu :showMenu="showDrawer" class="mmenu"></mmenu>
 
     <transition name="charouter">
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </transition>
 
     <!--遮罩，当侧边栏打开时显示，并控制侧边栏的关闭-->
