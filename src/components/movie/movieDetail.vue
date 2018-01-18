@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-wrapper">
+  <div class="detail-wrapper" ref="detailWrapper">
     <!--实际内容-->
     <div class="detail" v-show="fflag">
       <div class="top-wrapper">
@@ -17,7 +17,7 @@
           <div class="des">
             <div class="des-left">
               <div class="name">{{movieItem.alt_title}}</div>
-              <span class="time" v-show="movieItem.attrs.year[0]">{{movieItem.attrs.year[0]}}</span>
+              <span class="time">{{movieItem.attrs.year[0]}}</span>
               <div class="type" v-for="item in movieItem.attrs.movie_type">
                 <span>/{{item}}</span>
               </div>
@@ -53,6 +53,10 @@
           <div class="title">简介</div>
           <div class="summary-content">{{movieItem.summary}}</div>
         </div>
+        <div class="casts">
+          <div class="title">影人</div>
+          <movielist :casts="movieItem.attrs.cast"></movielist>
+        </div>
       </div>
     </div>
 
@@ -65,6 +69,8 @@
   import {mapState} from 'vuex'
   import star from 'components/star/star'
   import loading2 from 'components/loading/loading2'
+  import movielist from 'components/movie/movielist'
+  import BScroll from 'better-scroll'
 
   export default {
     data() {
@@ -74,6 +80,7 @@
         dscore: 0
       }
     },
+//    mounted() {
     created() {
       if (this.movieId) {
         this.getAaData('/v2/movie/' + this.movieId)
@@ -89,13 +96,27 @@
           _this.movieItem = res.data
           _this.fflag = true
           console.log(_this.movieItem)
+          //  获取完数据后，在初始化better-scroll
+          _this.$nextTick(() => {
+            _this._initScroll()
+          })
+
         }).catch((err) => {
           console.log(err)
         })
       },
-      hell(){
-        alert('hello')
-      }
+      hell() {
+        alert('welcome')
+      },
+      _initScroll() {
+        if (!this.scroll) {
+          this.scroll = new BScroll(this.$refs.detailWrapper, {
+            click: true
+          })
+        } else {
+          this.scroll.refresh()
+        }
+      },
 
     },
     computed: {
@@ -112,7 +133,8 @@
     },
     components: {
       star,
-      loading2
+      loading2,
+      movielist
     }
   }
 </script>
@@ -125,6 +147,7 @@
     bottom: 0
     width: 100%
     background: #fff
+    overflow: hidden
     .detail
       .top-wrapper
         width: 100%
@@ -218,31 +241,37 @@
           border-bottom: 1px solid #ddd
           .name
             vertical-align: top
-            margin-left:20px
+            margin-left: 20px
           .icon-wrapper
             text-align: center
             display: inline-block
             position: absolute
-            right:0
-            width:50px
-            height:50px
+            right: 0
+            width: 50px
+            height: 50px
             .icon
               display: block
-              margin:auto
-              line-height:50px
+              margin: auto
+              line-height: 50px
               font-size: 14px
         .summary
-          padding: 20px
+          padding: 20px 20px 10px 20px
           .title
-            margin-bottom:10px
-            font-size:12px
-            color:#888
+            margin-bottom: 10px
+            font-size: 12px
+            color: #888
           .summary-content
             width: 100%
-            height:80px
+            height: 80px
             overflow: hidden
-            text-overflow:ellipsis
+            text-overflow: ellipsis
             display: -webkit-box
             -webkit-line-clamp: 5
             -webkit-box-orient: vertical
+        .casts
+          padding: 20px 20px 10px 20px
+          .title
+            margin-bottom: 10px
+            font-size: 12px
+            color: #888
 </style>
