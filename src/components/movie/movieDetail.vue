@@ -61,7 +61,7 @@
         <div class="photo">
           <div class="title">剧照</div>
           <movielist2 :casts="movieItem.attrs.cast" :showName="false"
-                     :pic="'lixiang'"></movielist2>
+                      :pic="'lixiang'"></movielist2>
         </div>
         <!--评论区-->
         <comment></comment>
@@ -78,7 +78,7 @@
   import star from 'components/star/star'
   import loading2 from 'components/loading/loading2'
   import movielist from 'components/movie/movielist'
-    import movielist2 from 'components/movie/movielist2'
+  import movielist2 from 'components/movie/movielist2'
   import comment from 'components/movie/comment'
   import BScroll from 'better-scroll'
 
@@ -105,7 +105,7 @@
         this.$http.get(url).then((res) => {
           _this.movieItem = res.data
           _this.fflag = true
-          console.log(_this.movieItem)
+//          console.log(_this.movieItem)
           //  获取完数据后，在初始化better-scroll
           _this.$nextTick(() => {
             _this._initScroll()
