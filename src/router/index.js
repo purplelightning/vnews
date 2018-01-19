@@ -10,6 +10,7 @@ import test from 'components/test/test'
 import picture from 'components/picture/picture'
 import movie from 'components/movie/movie'
 import movieDetail from 'components/movie/movieDetail'
+import moviesearch from 'components/movie/moviesearch'
 
 Vue.use(Router)
 
@@ -64,6 +65,10 @@ export default new Router({
     {
       path: '/movieDetail',
       component: movieDetail
+    },
+    {
+      path: '/moviesearch',
+      component: moviesearch
     }
   ]
 })

@@ -4,6 +4,7 @@
       <div class="top-header" :style="{background:themeColor}">
         <div class="icon icon-arrow_lift" @click="getBack"></div>
         <span class="title">电影</span>
+        <div class="icon2 icon-joomla" @click="searchMovie"></div>
       </div>
       <!--<button @click="showContent">显示内容</button>-->
       <div class="content" ref="content">
@@ -52,7 +53,7 @@
         </div>
         <!--top250-->
         <div class="top" v-show="fflag3">
-          <div class="title">豆瓣Top250</div>
+          <div class="title">Top250</div>
           <ul class="top-list">
             <li v-for="(item,index) in topMovie.slice(0,4)" class="item">
               <span class="index">{{index + 1}}</span>
@@ -119,7 +120,8 @@
     mounted() {
       //执行时机优先于watch的执行时机
       this._initMovies()
-      this._initComing()
+
+        this._initComing()
       this._initAllMovie()
     },
     computed: {
@@ -132,8 +134,10 @@
       'movieData'() {
         this._initMovies();
       },
-      'comingMovie'() {
-        this._initComing()
+      'comingData'() {
+        setTimeout(() => {//这里加个延迟，解决scroll不能正常初始化的问题。。
+          this._initComing()
+        },1000)
       }
     },
     methods: {
@@ -177,12 +181,13 @@
                 scrollX: true,
                 eventPassThrough: 'vertical',
                 click: true
-              });
+              })
             } else {
-              this.coScroll.refresh();
+              this.coScroll.refresh()
             }
           })
         }
+
       },
       //异步获取数据  好像不能只用异步函数，会报错
       //因为电影数据的格式相同，所以这里对电影进行分类，传递不同的参数，给data赋值
@@ -215,7 +220,7 @@
           _this.topData = res.data
           _this.topMovie = res.data.subjects
           _this.fflag3 = true
-          console.log(_this.topData)
+//          console.log(_this.topData)
         }).catch((err) => {
           console.log(err)
         })
@@ -227,6 +232,10 @@
       },
       getBack() {
         this.openDrawer()
+      },
+      searchMovie() {
+//        console.log('HELLO')
+        this.$router.push('/moviesearch')
       },
       ...mapActions([
         'openDrawer', 'setMovieId'
@@ -263,6 +272,12 @@
           line-height: 60px
           width: 40px
           height: 100%
+        .icon2
+          display: inline-block
+          float: right
+          line-height: 60px
+          width: 40px
+          height: 100%
         .title
           margin: auto
 
@@ -279,7 +294,7 @@
               font-size: 16px
             .more
               position: absolute
-              right: 0px
+              right: 0
               vertical-align: top
               font-size: 12px
               color: #ccc
@@ -324,7 +339,7 @@
               font-size: 16px
             .more
               position: absolute
-              right: 0px
+              right: 0
               vertical-align: top
               font-size: 12px
               color: #ccc
@@ -387,7 +402,7 @@
                 border-bottom: 1px solid #ccc
                 .name
                   margin-top: 10px
-                  margin-bottom:5px
+                  margin-bottom: 5px
                   height: 25px
                   color: #444
                 star

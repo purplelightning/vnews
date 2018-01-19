@@ -23,6 +23,7 @@ const MOVIE = {
   TOP: "/v2/movie/top250",
   GOODRATING: "/v2/movie/weekly",
   NEW: "/v2/movie/new_movies",
+  SEARCH:"/v2/movie/search?q="
 
   // MOVIE_DETAIL=''
 }
