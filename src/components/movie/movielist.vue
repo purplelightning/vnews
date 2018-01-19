@@ -2,7 +2,7 @@
   <div class="movielist-wrapper" ref="movielistWrapper">
     <ul class="movie-list" ref="movieList" v-show="casts.length>0">
       <li v-for="item in casts" class="item">
-        <img src="../../../static/cat.png">
+        <img :src="picUrl">
         <!--<img :src="item.avatars.small">-->
         <div class="name" v-if="showName">{{item.split(' ')[0]}}</div>
       </li>
@@ -20,8 +20,17 @@
       casts: {
         type: Array
       },
-      showName:{
-        type:Boolean
+      showName: {
+        type: Boolean
+      },
+      pic: {
+        type: String
+      }
+
+    },
+    computed: {
+      picUrl() {
+        return '../../../static/' + this.pic + '.jpg'
       }
     },
 //    获取影人图片还要跨域，就不做了

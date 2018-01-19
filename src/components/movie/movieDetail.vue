@@ -55,11 +55,13 @@
         </div>
         <div class="casts">
           <div class="title">影人</div>
-          <movielist :casts="movieItem.attrs.cast" :showName="true"></movielist>
+          <movielist :casts="movieItem.attrs.cast" :showName="true"
+                     :pic="'cat'"></movielist>
         </div>
         <div class="photo">
           <div class="title">剧照</div>
-          <movielist :casts="movieItem.attrs.cast" :showName="false"></movielist>
+          <movielist2 :casts="movieItem.attrs.cast" :showName="false"
+                     :pic="'lixiang'"></movielist2>
         </div>
         <!--评论区-->
         <comment></comment>
@@ -76,7 +78,7 @@
   import star from 'components/star/star'
   import loading2 from 'components/loading/loading2'
   import movielist from 'components/movie/movielist'
-//  import movielist2 from 'components/movie/movielist2'
+    import movielist2 from 'components/movie/movielist2'
   import comment from 'components/movie/comment'
   import BScroll from 'better-scroll'
 
@@ -143,6 +145,7 @@
       star,
       loading2,
       movielist,
+      movielist2,
       comment
     }
   }
