@@ -119,9 +119,12 @@
     },
     mounted() {
       //执行时机优先于watch的执行时机
-      this._initMovies()
+//      this._initMovies()
 
-        this._initComing()
+//      this.$nextTick(() => {
+//        this._initComing()
+//      })
+
       this._initAllMovie()
     },
     computed: {
@@ -137,7 +140,7 @@
       'comingData'() {
         setTimeout(() => {//这里加个延迟，解决scroll不能正常初始化的问题。。
           this._initComing()
-        },1000)
+        }, 500)
       }
     },
     methods: {
