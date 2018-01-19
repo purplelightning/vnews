@@ -1,10 +1,10 @@
 <template>
   <div class="movielist-wrapper" ref="movielistWrapper">
     <ul class="movie-list" ref="movieList" v-show="casts.length>0">
-      <li v-for="item in casts" class="item">
-        <img src="../../../static/cat.png">
+      <li v-for="item in casts" class="item" ref="item">
+        <img src="../../../static/cat.png" ref="img">
         <!--<img :src="item.avatars.small">-->
-        <div class="name" v-if="showName">{{item.split(' ')[0]}}</div>
+        <div class="name">{{item.split(' ')[0]}}</div>
       </li>
     </ul>
   </div>
@@ -20,8 +20,14 @@
       casts: {
         type: Array
       },
-      showName:{
-        type:Boolean
+      picWidth: {
+        type: Number
+      },
+      picHeight: {
+        type: Number
+      },
+      mRight: {
+        type: Number
       }
     },
 //    获取影人图片还要跨域，就不做了
@@ -44,8 +50,8 @@
 //      },
       initCart() {
         if (this.casts.length > 0) {
-          let picWidth = 100
-          let margin = 6
+          let picWidth = this.picWidth
+          let margin = this.mRight
           let width = (picWidth + margin) * this.casts.length - margin
           this.$refs.movieList.style.width = width + 'px'
           this.$nextTick(() => {
@@ -60,10 +66,18 @@
             }
           })
         }
-      }
+      },
+      setAdd() {
+        this.$refs.item.style.width = this.picWidth + 'px'
+        this.$refs.img.style.width = this.picWidth + 'px'
+        this.$refs.img.style.height = this.picHeight + 'px'
+        this.$refs.img.style['margin-right'] = this.picHeight + 'px'
+        alert(this.$refs.item.style.width)
+      },
     },
     created() {
 //      this.initData('/v2/movie/subject/' + this.movieId)
+
     },
 //    computed: {
 //      ...mapState([
@@ -72,10 +86,12 @@
 //    },
     watch: {
       'casts'() {
+        this.setAdd()
         this.initCart()
       }
     },
     mounted() {
+      this.setAdd()
       this.initCart()
     }
   }
@@ -84,19 +100,19 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .movielist-wrapper
     width: 100%
-    height: 160px
+    height: 200px
     overflow: hidden
     .movie-list
       .item
         display: inline-block
-        width: 100px
-        margin-right: 6px
+        width:100px
+        margin-right:10px
         text-align: center
         &:last-child
           margin-right: 0
         img
-          width: 100px
-          height: 144px
+          width:100px
+          height:150px
         .name
           font-size: 12px
           color: black

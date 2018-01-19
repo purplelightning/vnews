@@ -1,7 +1,7 @@
 <template>
-  <div class="movie-wrapper">
+  <div class="movie-wrapper" ref="movieWrapper">
     <div class="movie" v-show="fflag">
-      <div class="top" :style="{background:themeColor}">
+      <div class="top-header" :style="{background:themeColor}">
         <div class="icon icon-arrow_lift" @click="getBack"></div>
         <span class="title">电影</span>
       </div>
@@ -29,7 +29,7 @@
             </ul>
           </div>
         </div>
-
+        <!--即将上映-->
         <div class="coming">
           <div class="coming-content">
             <span class="title">院线即将上映</span>
@@ -49,6 +49,25 @@
             </ul>
           </div>
 
+        </div>
+        <!--top250-->
+        <div class="top" v-show="fflag3">
+          <div class="title">豆瓣Top250</div>
+          <ul class="top-list">
+            <li v-for="(item,index) in topMovie.slice(0,4)" class="item">
+              <span class="index">{{index + 1}}</span>
+              <div class="ii">
+                <img :src="item.images.small">
+              </div>
+              <div class="des">
+                <div class="name">{{item.title}}</div>
+                <star :size="24" :score="item.rating.average"></star>
+                <span class="rating">{{item.rating.average}}</span>
+                <span class="ratingnumber">{{item.collect_count}}人评价</span>
+              </div>
+            </li>
+          </ul>
+          <div class="bott">全部250部</div>
         </div>
 
       </div>
@@ -73,12 +92,20 @@
       return {
         apiUrl: MOVIE.INTHEATRE,
         comingUrl: MOVIE.INCOMING,
+        topUrl: MOVIE.TOP,
+
         movieData: [],//用数组存储  正在上映电影
         allData: {},
+
         comingMovie: [],//即将上映的电影
         comingData: {},
+
+        topMovie: [],
+        topData: {},
+
         fflag: false,
-        fflag2: false
+        fflag2: false,
+        fflag3: false
       }
     },
     created() {
@@ -87,11 +114,13 @@
       }
       this.getAsyncData(this.apiUrl)
       this.getComingData(this.comingUrl)
+      this.getTopData(this.topUrl)
     },
     mounted() {
       //执行时机优先于watch的执行时机
-      this._initMovies();
+      this._initMovies()
       this._initComing()
+      this._initAllMovie()
     },
     computed: {
       ...mapState([
@@ -108,6 +137,15 @@
       }
     },
     methods: {
+      _initAllMovie() {
+        if (!this.allScroll) {
+          this.allScroll = new BScroll(this.$refs.movieWrapper, {
+            click: true
+          })
+        } else {
+          this.allScroll.refresh()
+        }
+      },
       _initMovies() {//横向滚动函数 正在上映的电影
         if (this.allData.total) {
           let picWidth = 100
@@ -171,6 +209,17 @@
           console.log(err)
         })
       },
+      getTopData(url) {
+        let _this = this
+        this.$http.get(url).then((res) => {
+          _this.topData = res.data
+          _this.topMovie = res.data.subjects
+          _this.fflag3 = true
+          console.log(_this.topData)
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
       goDetail(index) {
 //        console.log(this.movieData[index])
         this.setMovieId(this.movieData[index].id)
@@ -197,9 +246,10 @@
     width: 100%
     bottom: 0
     background: #fff
+    overflow: hidden
     .movie
       text-align: center
-      .top
+      .top-header
         width: 100%
         height: 60px
         line-height: 60px
@@ -218,8 +268,8 @@
 
       .content
         .theatre
-          padding:10px 10px 20px 10px
-          border-bottom:1px solid #ddd
+          padding: 10px 10px 20px 10px
+          border-bottom: 1px solid #ddd
           .title-content
             position: relative
             height: 40px
@@ -263,9 +313,8 @@
                   display: inline-block
                   font-size: 12px
 
-
         .coming
-          padding:10px
+          padding: 10px
           .coming-content
             position: relative
             height: 40px
@@ -303,8 +352,51 @@
                   white-space: nowrap /*不会折行*/
                   text-overflow: ellipsis
                 .want
-                  font-size:10px
-                  color:#888
+                  font-size: 10px
+                  color: #888
 
-
+        .top
+          text-align: left
+          padding: 20px
+          .title
+            font-weight: 700
+            margin-bottom: 20px
+          .top-list
+            margin-bottom: 10px
+            .item
+              display: flex
+              width: 100%
+              height: 66px
+              .index
+                flex: 0 0 20px
+                line-height: 66px
+              .ii
+                flex: 0 0 40px
+                height: 66px
+                margin-right: 10px
+                img
+                  margin-top: 5px
+                  width: 40px
+                  height: 55px
+              .des
+                display: inline-block
+                flex: 1
+                height: 66px
+                color: #888
+                font-size: 12px
+                border-bottom: 1px solid #ccc
+                .name
+                  margin-top: 10px
+                  margin-bottom:5px
+                  height: 25px
+                  color: #444
+                star
+                  display: inline-block
+                  height: 30px
+                .rating
+                  margin-right: 10px
+          .bott
+            color: #888
+            font-size: 15px
+            text-align: center
 </style>

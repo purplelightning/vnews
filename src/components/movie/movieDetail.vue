@@ -55,8 +55,14 @@
         </div>
         <div class="casts">
           <div class="title">影人</div>
-          <movielist :casts="movieItem.attrs.cast"></movielist>
+          <movielist :casts="movieItem.attrs.cast" :showName="true"></movielist>
         </div>
+        <div class="photo">
+          <div class="title">剧照</div>
+          <movielist :casts="movieItem.attrs.cast" :showName="false"></movielist>
+        </div>
+        <!--评论区-->
+        <comment></comment>
       </div>
     </div>
 
@@ -70,6 +76,8 @@
   import star from 'components/star/star'
   import loading2 from 'components/loading/loading2'
   import movielist from 'components/movie/movielist'
+//  import movielist2 from 'components/movie/movielist2'
+  import comment from 'components/movie/comment'
   import BScroll from 'better-scroll'
 
   export default {
@@ -134,7 +142,8 @@
     components: {
       star,
       loading2,
-      movielist
+      movielist,
+      comment
     }
   }
 </script>
@@ -269,6 +278,12 @@
             -webkit-line-clamp: 5
             -webkit-box-orient: vertical
         .casts
+          padding: 20px 20px 10px 20px
+          .title
+            margin-bottom: 10px
+            font-size: 12px
+            color: #888
+        .photo
           padding: 20px 20px 10px 20px
           .title
             margin-bottom: 10px
