@@ -11,7 +11,7 @@ import store from './store'
 Vue.prototype.$http = axios
 
 Vue.use(VueLazyLoad, {
-  loading: '../static/cat.png'
+  loading: '../static/cat.jpg'
 })
 
 import 'common/stylus/index.styl'

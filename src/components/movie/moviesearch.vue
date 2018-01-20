@@ -6,8 +6,8 @@
         <input type="text" class="searchmov" placeholder="电影"
                v-model="msg" @keyup.enter="doSearch"
         >
-        <div class="done" @click="doSearch">搜索</div>
-        <div class="cancel" @click="goBack">取消</div>
+        <div class="done icon-search" @click="doSearch"></div>
+        <div class="cancel icon-cross" @click="goBack"></div>
       </div>
       <div class="content" ref="content">
         <div class="list-wrapper" v-show="fflag">
@@ -130,11 +130,12 @@
           vertical-align: middle
           margin: 0 10px
           border-bottom: 1px solid #c8cccf
-          width: 220px
+          width: 230px
           height: 25px
         .done
           display: inline-block
           position: absolute
+          width:30px
           right: 50px
           top: 10px
           padding: 5px

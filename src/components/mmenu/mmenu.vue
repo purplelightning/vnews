@@ -14,7 +14,7 @@
         </li>
         <li class="item" @click="openColorDialog">
           <div class="rou">
-            <span class="newicon icon-joomla"></span>
+            <span class="newicon icon-cog"></span>
             换肤
           </div>
         <!--<li class="item" @click="openColorDialog">-->
@@ -57,7 +57,7 @@
           },
           {
             title:'电影',
-            tt:'icon-library',
+            tt:'icon-film',
             sel:false,
             towhere:'/movie'
           },
@@ -79,7 +79,7 @@
             sel: false,
             towhere: '/picture'
           }],
-        imgUrl: '../../static/xin.jpg',
+        imgUrl: '../../static/lixiang.jpg',
         themeFlag: false
       }
     },

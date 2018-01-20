@@ -5,7 +5,8 @@
       <div class="top-wrapper">
         <div class="top">
           <div class="icon icon-arrow_lift" @click="goBack"></div>
-          <span class="title">电影详情</span>
+          <span class="icon2 icon-film"></span>
+          <span class="title">电影</span>
         </div>
         <div class="pic">
           <img :src="movieItem.image">
@@ -178,8 +179,12 @@
             line-height: 60px
             width: 40px
             height: 100%
+          .icon2
+            margin-left:-40px
+            vertical-align: top
+            font-size:18px
           .title
-            margin-left: -30px
+            vertical-align: top
         .pic
           width: 100%
           height: 280px

@@ -4,7 +4,7 @@
       <div class="top-header" :style="{background:themeColor}">
         <div class="icon icon-arrow_lift" @click="getBack"></div>
         <span class="title">电影</span>
-        <div class="icon2 icon-joomla" @click="searchMovie"></div>
+        <div class="icon2 icon-search" @click="searchMovie"></div>
       </div>
       <!--<button @click="showContent">显示内容</button>-->
       <div class="content" ref="content">
@@ -13,7 +13,7 @@
           <div class="title-content">
             <span class="title">影院热映</span>
             <span class="more">全部{{allData.total}}
-            <span class=" icon icon-circle-right"></span> </span>
+            <span class=" icon icon-keyboard_arrow_right"></span> </span>
           </div>
           <!--横向滚动列表-->
           <div class="mo-wrapper" ref="moWrapper">
@@ -35,7 +35,7 @@
           <div class="coming-content">
             <span class="title">院线即将上映</span>
             <span class="more">全部{{comingData.total}}
-            <span class=" icon icon-circle-right"></span></span>
+            <span class=" icon icon-keyboard_arrow_right"></span></span>
           </div>
           <!--即将上映横向滚动-->
           <div class="coming-wrapper" ref="comingWrapper">
