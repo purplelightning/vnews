@@ -5,6 +5,11 @@
       <span class="title">前端实习</span>
       <div class="icon2 icon-search"></div>
     </div>
+    <div class="cities">
+      <span class="city" @click="changeCity(1)">杭州</span>
+      <span class="city" @click="changeCity(2)">上海</span>
+      <span class="city" @click="changeCity(3)">南京</span>
+    </div>
     <div class="intern-content" v-show="fflag">
       <div class="intern" ref="intern">
         <ul>
@@ -26,7 +31,7 @@
       </div>
     </div>
     <div class="loading" v-show="!fflag">
-    <img src="../../../static/loading.gif">
+      <img src="../../../static/loading.gif">
     </div>
   </div>
 </template>
@@ -38,7 +43,7 @@
   import BScroll from 'better-scroll'
 
   let head = 'interns/search?p='
-  let tail = '&k=%E5%89%8D%E7%AB%AF&i=&c=%E6%9D%AD%E5%B7%9E&s=-&x=&d=&m='
+  let tail = '&k=前端&i=&c=杭州&s=-&x=&d=&m='
   let count = 1
 
   export default {
@@ -50,9 +55,23 @@
         pullUpLoad: {
           threshold: -70,
         },
+        apiUrl: INTERN
       }
     },
     methods: {
+      changeCity(index) {
+        if (index === 1) {
+          tail = '&k=前端&i=&c=杭州&s=-&x=&d=&m='
+        } else if (index === 2) {
+          tail = '&k=前端&i=&c=上海&s=-&x=&d=&m='
+        } else {
+          tail = '&k=前端&i=&c=南京&s=-&x=&d=&m='
+        }
+        this.apiUrl = head + 1 + tail
+        count = 1
+        this.internData = []
+        this.getData(this.apiUrl)
+      },
       getData(url) {
         let _this = this
         this.$http.get(url).then((res) => {
@@ -78,7 +97,7 @@
           this.fflag = false
 //          setTimeout(() => {
           this.refreshPage()
-//          console.log(count)
+          console.log(count)
 //          }, 10)
         })
       },
@@ -87,13 +106,13 @@
       },
       refreshPage() {
         count++
-        if (count <=3) {
+        if (count <= 3) {
           let url = head + 2 + tail
           this.getData(url)
-        }else if(count>3&&count<6){
-           let url = head + 3 + tail
+        } else if (count > 3 && count < 6) {
+          let url = head + 3 + tail
           this.getData(url)
-        }else{
+        } else {
           let url = head + 4 + tail
           this.getData(url)
         }
@@ -103,7 +122,7 @@
       ])
     },
     created() {
-      this.getData(INTERN)
+      this.getData(this.apiUrl)
     },
     mounted() {
       this.initScroll()
@@ -147,6 +166,7 @@
               arr[i] = '师'
               break
             case '#xf747':
+            case '#xefb5':
               arr[i] = 'w'
               break
             case '#xed10':
@@ -161,6 +181,9 @@
             case '#xec1e':
               arr[i] = '1'
               break
+            case '#xe9d5':
+              arr[i] = '4'
+              break
             case '#xe376':
               arr[i] = '6'
               arr[i] = arr[i]
@@ -173,6 +196,9 @@
         let str = arr.join('')
         let subStr = new RegExp('#xe65c', 'ig')
         let res = str.replace(subStr, '端')
+        if(arr.length>9){
+          return res.slice(0,8)+'...'
+        }
         return res
       },
       ssdate: function (value) {
@@ -200,6 +226,9 @@
             case '#xf379':
               arr[i] = '6'
               break
+            case '#xe434':
+              arr[i] = '8'
+              break
             case '#xe376':
               arr[i] = '9'
               break
@@ -225,6 +254,7 @@
     position: absolute
     top: 0
     bottom: 0
+    right:0
     left: 0
     width: 100%
     background: #efffff
@@ -250,9 +280,19 @@
         height: 100%
       .title
         margin: auto
+    .cities
+      display: flex
+      width: 100%
+      height: 40px
+      line-height: 40px
+      .city
+        flex: 1
+        text-align: center
+        border: 1px solid #ccc
+
     .intern-content
       position: absolute
-      top: 60px
+      top: 100px
       left: 0
       bottom: 0
       width: 100%
@@ -272,7 +312,7 @@
             padding: 10px
             box-sizing: border-box
           .content
-            flex: 0 0 200px
+            flex: 1
             font-size: 14px
             .title
               margin: 10px 0
@@ -283,8 +323,6 @@
               color: #888
           .right
             flex: 0 0 110px
-            width: 100%
-            color: red
             font-weight: 600
             .time
               margin: 20px 0 20px 0
