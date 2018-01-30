@@ -17,18 +17,21 @@ const PICTURETOP = 'photocenter/api/list/0001/00AP0001,3R710001,4T8E0001/0/3/cac
 const PHOTO = 'j/search_photo?q=%E7%BE%8E%E5%A5%B3&limit=20&start=0'
 const PHOTO2 = 'j/search_photo?q=%E7%BE%8E%E5%A5%B3&limit=20&start=20'
 
+const ii = 'https://wap.shixiseng.com/interns/search?p=2&k=%E5%89%8D%E7%AB%AF&i=&c=%E6%9D%AD%E5%B7%9E&s=-&x=&d=&m='
+const INTERN = 'interns/search?p=1&k=%E5%89%8D%E7%AB%AF&i=&c=%E6%9D%AD%E5%B7%9E&s=-&x=&d=&m='
+
 const MOVIE = {
   INTHEATRE: "/v2/movie/in_theaters",
   INCOMING: "/v2/movie/coming_soon",
   TOP: "/v2/movie/top250",
   GOODRATING: "/v2/movie/weekly",
   NEW: "/v2/movie/new_movies",
-  SEARCH:"/v2/movie/search?q="
+  SEARCH: "/v2/movie/search?q="
 
   // MOVIE_DETAIL=''
 }
 
 export {
   HOME_NEWS, SOCIETY_NEWS, HISTORY, FUN, SPORT, PICTURE, PICTURETOP,
-  LAIFU, PHOTO, MOVIE
+  LAIFU, PHOTO, MOVIE, INTERN
 }

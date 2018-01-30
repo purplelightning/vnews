@@ -88,7 +88,7 @@
 
       //异步获取数据并初始化better-scroll
       getAsynData(url) {
-        var _this = this
+        let _this = this
         this.$http.get(url).then((res) => {
           _this.news = res.data
           //获得新数据并合并到最终数组里

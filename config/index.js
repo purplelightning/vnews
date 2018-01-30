@@ -28,6 +28,10 @@ module.exports = {
       "/v2/movie": {
         target: "https://api.douban.com/",
         changeOrigin: true
+      },
+      "/interns/search": {
+        target: "https://wap.shixiseng.com/",
+        changeOrigin: true
       }
     },
 

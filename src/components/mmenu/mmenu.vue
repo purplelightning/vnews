@@ -62,17 +62,17 @@
             towhere:'/movie'
           },
           {
-            title: '前端',
+            title: '前端实习',
             tt: 'icon-html-five2',
             sel: false,
-            towhere: '/qina'
+            towhere: '/intern'
           },
-          {
-            title: '阅读',
-            tt: 'icon-book',
-            sel: false,
-            towhere: '/ads'
-          },
+//          {
+//            title: '阅读',
+//            tt: 'icon-book',
+//            sel: false,
+//            towhere: '/ads'
+//          },
           {
             title: '图片',
             tt: 'icon-images',
@@ -134,7 +134,7 @@
     width: 250px
     height: 100%
     color: white
-    background: #262626
+    background: #393939
     z-index: 10
     &.move-enter, &.move-leave-to
       opacity: 0
@@ -147,7 +147,7 @@
       padding: 20px
       box-sizing: border-box
       text-align: center
-      background: #393939
+      background: #262626
       .ii
         display: block
         margin: auto
