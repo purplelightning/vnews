@@ -5,23 +5,28 @@
       <span class="title">前端实习</span>
       <div class="icon2 icon-search"></div>
     </div>
-    <div class="intern">
-      <ul>
-        <li v-for="item in internData" class="item">
-          <div class="ii">
-            <img :src="item.logo_url" width="80" height="80">
-          </div>
-          <div class="content">
-            <div class="title">{{item.name | ssl}}</div>
-            <div class="des">{{item.city | ssplace}}/每周{{item.dayperweek | ssl}}天</div>
-            <div class="name">{{item.company_name}}</div>
-          </div>
-          <div class="right">
-            <div class="time">{{item.refresh | ssdate}}</div>
-            <div class="salary">￥{{item.minsalary}}-{{item.maxsalary}}/天</div>
-          </div>
-        </li>
-      </ul>
+    <div class="intern-content" v-show="fflag">
+      <div class="intern" ref="intern">
+        <ul>
+          <li v-for="item in internData" class="item">
+            <div class="ii">
+              <img :src="item.logo_url" width="80" height="80">
+            </div>
+            <div class="content">
+              <div class="title">{{item.name | ssl}}</div>
+              <div class="des">{{item.city | ssplace}}/每周{{item.dayperweek | ssl}}天</div>
+              <div class="name">{{item.company_name}}</div>
+            </div>
+            <div class="right">
+              <div class="time">{{item.refresh | ssdate}}</div>
+              <div class="salary">￥{{item.minsalary}}-{{item.maxsalary}}/天</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="loading" v-show="!fflag">
+    <img src="../../../static/loading.gif">
     </div>
   </div>
 </template>
@@ -32,30 +37,66 @@
   import {mapActions, mapState} from 'vuex'
   import BScroll from 'better-scroll'
 
-  let apiUrl='interns/search?p=1&k=%E5%89%8D%E7%AB%AF&i=&c=%E6%9D%AD%E5%B7%9E&s=-&x=&d=&m='
-
+  let head = 'interns/search?p='
+  let tail = '&k=%E5%89%8D%E7%AB%AF&i=&c=%E6%9D%AD%E5%B7%9E&s=-&x=&d=&m='
+  let count = 1
 
   export default {
     data() {
       return {
-        fflag: true,
-        internData: []
+        fflag: false,
+        internData: [],
+        //是否开启上拉加载，同上，上拉无stop参数，这里需要注意是负数
+        pullUpLoad: {
+          threshold: -70,
+        },
       }
     },
     methods: {
       getData(url) {
+        let _this = this
         this.$http.get(url).then((res) => {
 //          console.log(res.data.msg)
-          this.internData = res.data.msg
+          _this.internData = this.internData.concat(res.data.msg)
+          console.log(_this.internData)
+          _this.fflag = true
         }).catch((err) => {
           console.log(err)
         })
       },
       initScroll() {
-
+        if (!this.iScroll) {
+          this.iScroll = new BScroll(this.$refs.intern, {
+            click: true,
+            scrollY: true,
+            pullUpLoad: this.pullUpLoad
+          })
+        } else {
+          this.iScroll.refresh()
+        }
+        this.iScroll.on('pullingUp', () => {
+          this.fflag = false
+//          setTimeout(() => {
+          this.refreshPage()
+//          console.log(count)
+//          }, 10)
+        })
       },
       getBack() {
         this.openDrawer()
+      },
+      refreshPage() {
+        count++
+        if (count <=3) {
+          let url = head + 2 + tail
+          this.getData(url)
+        }else if(count>3&&count<6){
+           let url = head + 3 + tail
+          this.getData(url)
+        }else{
+          let url = head + 4 + tail
+          this.getData(url)
+        }
       },
       ...mapActions([
         'openDrawer'
@@ -63,6 +104,14 @@
     },
     created() {
       this.getData(INTERN)
+    },
+    mounted() {
+      this.initScroll()
+    },
+    watch: {
+      internData() {
+        this.initScroll()
+      }
     },
     computed: {
       ...mapState([
@@ -122,7 +171,6 @@
         }
 //        console.log(arr)
         let str = arr.join('')
-        console.log(str)
         let subStr = new RegExp('#xe65c', 'ig')
         let res = str.replace(subStr, '端')
         return res
@@ -131,17 +179,23 @@
         let arr = value.split(/[&:-]/)
         for (let i = 0; i < arr.length; i++) {
           switch (arr[i]) {
-            case '#xf1b1':
-              arr[i] = '5'
-              break
-            case '#xebe9':
-              arr[i] = '3'
-              break
             case '#xee44':
               arr[i] = '0'
               break
             case '#xec1e':
               arr[i] = '1'
+              break
+            case '#xe18a':
+              arr[i] = '2'
+              break
+            case '#xebe9':
+              arr[i] = '3'
+              break
+            case '#xe9d5':
+              arr[i] = '4'
+              break
+            case '#xf1b1':
+              arr[i] = '5'
               break
             case '#xf379':
               arr[i] = '6'
@@ -196,41 +250,57 @@
         height: 100%
       .title
         margin: auto
-
-    .intern
+    .intern-content
+      position: absolute
+      top: 60px
+      left: 0
+      bottom: 0
       width: 100%
-      .item
-        display: flex
+      .intern
         width: 100%
-        height: 110px
-        color: #888
-        box-sizing: border-box
-        border-bottom: 1px solid #ccc
-        .ii
-          flex: 0 0 100px
-          padding: 10px
-          box-sizing: border-box
-        .content
-          flex: 0 0 200px
-          font-size: 14px
-          .title
-            margin: 10px 0
-            font-size: 20px
-            color: black
-          .des
-            margin-bottom: 10px
-            color: #888
-        .right
-          flex: 0 0 110px
+        height: 100%
+        overflow: hidden
+        .item
+          display: flex
           width: 100%
-          color: red
-          font-weight: 600
-          .time
-            margin: 20px 0 20px 0
-            text-align: center
+          height: 110px
+          color: #888
+          box-sizing: border-box
+          border-bottom: 1px solid #ccc
+          .ii
+            flex: 0 0 100px
+            padding: 10px
+            box-sizing: border-box
+          .content
+            flex: 0 0 200px
             font-size: 14px
-          .salary
-            color: #ff4e20
-            font-weight: 700
+            .title
+              margin: 10px 0
+              font-size: 20px
+              color: black
+            .des
+              margin-bottom: 10px
+              color: #888
+          .right
+            flex: 0 0 110px
+            width: 100%
+            color: red
+            font-weight: 600
+            .time
+              margin: 20px 0 20px 0
+              text-align: center
+              font-size: 14px
+            .salary
+              color: #ff4e20
+              font-weight: 700
+
+    .loading
+      width: 100%
+      height: 100%
+      img
+        display: block
+        margin: 100px auto
+        width: 150px
+        height: 150px
 
 </style>
