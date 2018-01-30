@@ -24,4 +24,4 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 使用到的库：better-scroll,vue-lazyload
 
-使用网易新闻，豆瓣电影的数据
+使用网易新闻，豆瓣电影，实习僧的数据
