@@ -62,7 +62,7 @@
             towhere:'/movie'
           },
           {
-            title: '前端实习',
+            title: '实习',
             tt: 'icon-html-five2',
             sel: false,
             towhere: '/intern'

@@ -289,6 +289,9 @@
         flex: 1
         text-align: center
         border: 1px solid #ccc
+        &:hover
+          color: #5d6cff
+          background: #4dffa7
 
     .intern-content
       position: absolute
@@ -316,7 +319,10 @@
             font-size: 14px
             .title
               margin: 10px 0
+              height:20px
               font-size: 20px
+              overflow:hidden
+              text-wrap:nowrap
               color: black
             .des
               margin-bottom: 10px

@@ -4,7 +4,7 @@
 
 const path = require('path')
 
-const url2 = 'https://www.douban.com/search?cat=1025&q=%E7%BE%8E%E5%A5%B3'
+// const url2 = 'https://www.douban.com/search?cat=1025&q=%E7%BE%8E%E5%A5%B3'
 
 module.exports = {
   dev: {

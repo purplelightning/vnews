@@ -13,10 +13,9 @@
           </div>
         </li>
       </ul>
-      <loading :ashow="false"></loading>
     </div>
 
-    <div class="loading" v-show="!news">
+    <div class="loading" v-show="!newsFlag">
       <img src="../../../static/loading.gif">
     </div>
   </div>
@@ -25,13 +24,13 @@
 <script type="text/ecmascript-6">
   import axios from 'axios'
   import BScroll from 'better-scroll'
-  import loading from 'components/loading/loading'
 
   export default {
     data() {
       return {
         apiUrl: this.fatherUrl,
         news: '',
+        newsFlag: false,
         //是否开启下拉刷新，可传入true或者false,如果需要更多配置可以传入一个对象
         pullDownRefresh: {
           threshold: 70,
@@ -61,18 +60,30 @@
 //            freeScroll: true,
             scrollY: true,
             pullUpLoad: this.pullUpLoad,
+            pullDownRefresh: this.pullDownRefresh,
           })
         } else {
           this.scroll.refresh()
         }
 
+        //上拉加载
         this.scroll.on('pullingUp', () => {
+          this.newsFlag = false
           setTimeout(() => {
 //            console.log(this.tipShow)
             this.refreshPage()
+            this.newsFlag = true
 //            this.tipShow = false
           }, 1000)
 //          this.showTip()
+        })
+        //下拉刷新
+        this.scroll.on('pullingDown', () => {
+          this.newsFlag = false
+          setTimeout(() => {
+            this.getAsynData(this.apiUrl)
+            this.newsFlag = true
+          }, 1000)
         })
 //        this.scroll.on('scrollEnd', () => {
 //          if (this.scroll.movingDirectionX !== 0) {
@@ -91,6 +102,7 @@
         let _this = this
         this.$http.get(url).then((res) => {
           _this.news = res.data
+          _this.newsFlag = true
           //获得新数据并合并到最终数组里
           let temp = (_this.formatData(_this.news))
           _this.finalData = _this.finalData.concat(temp)
@@ -114,7 +126,7 @@
 //        }, 1000)
 //      },
 
-      //下拉刷新页面
+      //上拉刷新页面
       refreshPage() {
         this.getAsynData(this.newPageUrl)
       },
@@ -157,9 +169,6 @@
         return value
       }
     },
-    components: {
-      loading
-    }
   }
 </script>
 
@@ -208,8 +217,13 @@
         background: #3ffff3
         z-index: 1
     .loading
+      position: absolute;
+      top: 0
+      left: 0
+      bottom: 0
       width: 100%
       height: 100%
+      background: rgba(222, 222, 222, .8);
       img
         display: block
         margin: 100px auto
