@@ -1,5 +1,8 @@
 <template>
   <div class="newstempWrapper">
+    <div class="pull" v-show="pullFlag">
+      <img src="../../../static/loading.gif">
+    </div>
     <div class="newstemp" ref="newstemp" v-show="news">
       <ul>
         <li v-for="item in finalData" class="item" @click="getFullPage(item.url)">
@@ -14,9 +17,11 @@
         </li>
       </ul>
     </div>
-
-    <div class="loading" v-show="!newsFlag">
+    <div class="push" v-show="pushFlag">
       <img src="../../../static/loading.gif">
+    </div>
+    <div class="loading" v-show="!newsFlag">
+      <img src="../../../static/loading.gif" v-show="">
     </div>
   </div>
 </template>
@@ -31,17 +36,21 @@
         apiUrl: this.fatherUrl,
         news: '',
         newsFlag: false,
+        pullFlag: false,
+        pushFlag: false,
+        tipShow: false,
+        count: 0,
         //是否开启下拉刷新，可传入true或者false,如果需要更多配置可以传入一个对象
         pullDownRefresh: {
           threshold: 70,
-          stop: 40
+//          stop: 40
         },
         //是否开启上拉加载，同上，上拉无stop参数，这里需要注意是负数
         pullUpLoad: {
           threshold: -70,
+          moreText: '加载更多'
         },
         finalData: [],//用于存储格式化的数据
-        tipShow: false
       }
     },
     props: [
@@ -56,33 +65,36 @@
       _initScroll() {
         if (!this.scroll) {
           this.scroll = new BScroll(this.$refs.newstemp, {
-            click: true,
+              click: true,
 //            freeScroll: true,
-            scrollY: true,
-            pullUpLoad: this.pullUpLoad,
-            pullDownRefresh: this.pullDownRefresh,
-          })
+              scrollY: true,
+              pullUpLoad: this.pullUpLoad,
+              pullDownRefresh: this.pullDownRefresh,
+            }
+          )
         } else {
+          //告诉better-scroll数据已加载，能够重复加载
+          this.scroll.finishPullUp()
+          this.scroll.finishPullDown()
           this.scroll.refresh()
         }
 
         //上拉加载
         this.scroll.on('pullingUp', () => {
-          this.newsFlag = false
+          this.pushFlag = true
+          this.count = this.count + 10
+//          console.log(this.count)
           setTimeout(() => {
-//            console.log(this.tipShow)
-            this.refreshPage()
-            this.newsFlag = true
-//            this.tipShow = false
+            this.refreshPage(this.count)
+            this.pushFlag = false
           }, 1000)
-//          this.showTip()
         })
         //下拉刷新
         this.scroll.on('pullingDown', () => {
-          this.newsFlag = false
+          this.pullFlag = true
           setTimeout(() => {
             this.getAsynData(this.apiUrl)
-            this.newsFlag = true
+            this.pullFlag = false
           }, 1000)
         })
 //        this.scroll.on('scrollEnd', () => {
@@ -107,7 +119,6 @@
           let temp = (_this.formatData(_this.news))
           _this.finalData = _this.finalData.concat(temp)
 //          console.log(_this.finalData)
-
           _this.$nextTick(() => {
             _this._initScroll()
           })
@@ -115,20 +126,9 @@
           console.log(error)
         })
       },
-
-      //显示加载提示
-//      showTip() {
-//        let text = '加载中'
-//        alert.innerHtml = text
-//        alert.style.display = 'block'
-//        setTimeout(() => {
-//          alert.style.display = 'none'
-//        }, 1000)
-//      },
-
       //上拉刷新页面
-      refreshPage() {
-        this.getAsynData(this.newPageUrl)
+      refreshPage(number) {
+        this.getAsynData(this.getNewPageUrl(number))
       },
 
       //格式化传入的数据，返回一个对象
@@ -141,26 +141,29 @@
           let ele = eleArray[eleArray.length - 2]
           return ndea[ele]
         }
-      }
-    },
-    created() {
-      this.getAsynData(this.apiUrl)
-    },
-    computed: {
-      newPageUrl() {//新的url
+      },
+      //获取新的url
+      getNewPageUrl(number) {//新的url
+        if (number > 50) {
+          alert('没有更多数据')
+          return
+        }
         let urlArray = this.fatherUrl.split('/')
-        if (urlArray[urlArray.length - 1] === '10-10.html') {
+        if (urlArray[urlArray.length - 1] === `${number}-10.html`) {
           return
         }
         let url = ''
         for (let i = 0; i < urlArray.length - 1; i++) {
           url += urlArray[i] + '/'
         }
-        url += '10-10.html'
+        url += `${number}-10.html`
         return url
       }
-
     },
+    created() {
+      this.getAsynData(this.apiUrl)
+    },
+    computed: {},
     filters: {
       setComment(value) {
         if (parseInt(value) >= 10000) {
@@ -176,6 +179,13 @@
   .newstempWrapper
     width: 100%
     height: 100%
+    .pull
+      width: 100%
+      height: 60px
+      img
+        display: block
+        margin: 10px auto
+        width: 40px
     .newstemp
       width: 100%
       height: 100%
@@ -216,14 +226,24 @@
         height: 50px
         background: #3ffff3
         z-index: 1
+    .push
+      position: fixed
+      left: 0
+      bottom: 0
+      width: 100%
+      height: 60px
+      img
+        display: block
+        margin: 10px auto
+        width: 40px
     .loading
-      position: absolute;
+      position: absolute
       top: 0
       left: 0
       bottom: 0
       width: 100%
       height: 100%
-      background: rgba(222, 222, 222, .8);
+      background: rgba(222, 222, 222, .8)
       img
         display: block
         margin: 100px auto

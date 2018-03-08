@@ -6,7 +6,7 @@ import society from '@/components/news/society'
 import sport from '@/components/news/sport'
 import fun from '@/components/news/fun'
 import history from 'components/news/history'
-import test from 'components/test/test'
+import test2 from 'components/test/test2'
 import picture from 'components/picture/picture'
 import movie from 'components/movie/movie'
 import movieDetail from 'components/movie/movieDetail'
@@ -51,8 +51,8 @@ export default new Router({
       component: fun
     },
     {
-      path: '/test',
-      component: test
+      path: '/test2',
+      component: test2
     },
     {
       path: '/picture',
