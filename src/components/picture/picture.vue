@@ -7,7 +7,7 @@
     <div class="picture" ref="picture">
       <ul class="picture-list">
         <li v-for="item in pcontent" class="item">
-          <img :src="item.src" class="ii">
+          <img :src="item.thumburl" class="ii">
         </li>
       </ul>
     </div>
@@ -17,7 +17,7 @@
 
 <script type="text/ecmascript-6">
   import axios from 'axios'
-  import {PHOTO} from 'common/js/url'
+  import {LAIFU} from 'common/js/url'
   import {mapActions, mapState} from 'vuex'
   import loading from 'components/loading/loading'
   import BScroll from 'better-scroll'
@@ -25,7 +25,7 @@
   export default {
     data() {
       return {
-        apiUrl: PHOTO,
+        apiUrl: LAIFU,
         pcontent: {},
         fflag: false,
         pullUpLoad: {//上拉加载
@@ -40,7 +40,7 @@
       getImg() {
         var _this = this
         this.$http.get(this.apiUrl).then((res) => {
-          _this.pcontent = res.data.images
+          _this.pcontent = res.data
           _this.fflag = true
 //          console.log(_this.pcontent)
 //          获取完数据后，在初始化better-scroll
